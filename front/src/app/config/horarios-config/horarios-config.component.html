@@ -1,0 +1,176 @@
+<div class="mensaje"
+      [@entradaSalidaVentana]="codAccion == -1"
+      *ngIf="codAccion != -1">
+
+      <ng-container *ngIf="codAccion == 0">
+        <div class="mensaje-ok d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-circle-check me-3"></i>
+          <p *ngIf="codAccion == 0">{{ this.mensaje }}</p>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="codAccion == 1">
+        <div class="mensaje-error d-flex align-items-center justify-content-center">
+          <i class="fa-solid fa-triangle-exclamation me-3"></i>
+          <p *ngIf="codAccion == 1">{{ this.mensaje }}</p>
+        </div>
+      </ng-container>
+    </div>
+
+<form [formGroup]="citasForm" (ngSubmit)="guardar()"  #cForm="ngForm">
+    <div class="horarios">
+        <h3 class="titulo mb-4">Horario</h3>
+    
+        <p *ngIf="citasForm.get('horarios')?.errors?.['mismaHora']"
+          class="mensaje-error mb-3">Hay horarios con las mismas horas de entrada y salida
+        </p>
+    
+        <ng-container formArrayName="horarios">
+          <ng-container *ngFor="let horarioForm of horarios.controls; let i = index">
+            <div class="horario d-flex flex-column flex-xl-row align-items-center" [formGroupName]="i">
+    
+              <div class="horas d-flex">
+                <div class="d-flex flex-column flex-xl-row">
+                  <p class="f-rojo">Entrada</p>
+                  <input type="time"
+                    class="inpt pe-xl-4 pe-xxl-5"
+                    formControlName="hEntrada" />
+                </div>
+    
+                <div class="d-flex flex-column flex-xl-row">
+                  <p class="f-rojo">Salida</p>
+                  <input type="time"
+                    class="inpt pe-xl-4 pe-xxl-5"
+                    formControlName="hSalida" />
+                </div>
+              </div>
+    
+              <div class="dias d-flex flex-column flex-xl-row">
+                <p class="f-rojo">Días</p>
+    
+                <ng-container formArrayName="dias">
+                  <div class="ms-xl-2 d-flex align-items-center justify-content-center">
+    
+                    <ng-container *ngFor="let diaForm of getDiasHorario(i).controls; let j = index">
+                      <div class="dia" [formGroupName]="j">
+    
+                        <input type="checkbox"
+                          class="me-1"
+                          name="{{ diaForm.get('nombre')!.value }}"
+                          value="{{ diaForm.get('nombre')!.value }}"
+                          formControlName="seleccionado" />
+    
+                        <label for="{{ diaForm.get('nombre')!.value }}">{{ diaForm.get("letra")!.value }}</label><!-- getLetra(i,j) -->
+                      </div>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </div>
+    
+              <i class="fa-solid fa-trash ms-auto me-2" (click)="deleteHorario(i)"></i>
+            </div>
+    
+            <div>
+              <p *ngIf="horarioForm.get('hEntrada')?.errors?.['required']
+                        || horarioForm.get('hSalida')?.errors?.['required']"
+                class="mensaje-error">La horas de entrada y salida son obligatorias
+              </p>
+    
+              <p *ngIf="horarioForm.get('dias')?.errors?.['noDiaSelecc']"
+                class="mensaje-error">Es necesario seleccionar al menos 1 día
+              </p>
+            </div>
+    
+          </ng-container>
+        </ng-container>
+    
+        <button type="button" (click)="addHorario()" class="btn-primario">
+          Añadir otro
+        </button>
+    </div>
+</form>
+<div class="horas-citas pt-5">
+    <h3 class="titulo mb-4">Horas citas</h3>
+    <div class="row p-0">
+    
+        <div class="col-12 col-sm-4 col-md-6 col-xl-4">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center pe-3">
+                    <ngb-timepicker class="" [(ngModel)]="time"></ngb-timepicker>
+                </div>
+                <div class="col-12 d-flex justify-content-center pt-0 p-md-2">
+                    <button (click)="anadirHora(this.diaSeleccionado)" [disabled]="!this.horaValida"
+                        class="btn-primario me-0">Añadir</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-0 col-sm-1 col-md-0"></div> -->
+        <div class="col-12 col-sm-8 col-md-6 col-xl-4 py-0 pt-5 pt-sm-0 px-5 px-xs-4 px-sm-0">
+            <div class="row px-0 px-xs-5 px-md-1 py-0 py-md-0">
+                <div class="col-12 col-md-9 sombra">
+                    <div class="row px-0">
+                        <div class="col-5 p-0">
+                            <div class="btnes-dias">
+                                    <div *ngFor="let dia of this.diasSemana" 
+                                        class="btn-dia w-100 p-2" (click)="onDiaChange(dia.cod)"
+                                        [ngClass]="(this.diaSeleccionado == dia.cod ? 'selected' : '')">
+                                            {{ dia.dia }}
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-0">
+                            <div class="horas">
+                                <ng-container *ngFor="let hora of this.horasMostrar; let i = index">
+                                    <div class="hora px-3" [ngClass]="this.isHoraEntradaSalida[i] ? 'hora-horario' : ''">
+                                        {{hora}}
+                                        <button class="quitar ms-auto my-0" *ngIf="!this.isHoraEntradaSalida[i]" (click)="quitar(i)">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-0 col-md-3"></div>
+            </div> 
+        </div>
+        <div class="col-12 col-xl-4 py-2 py-sm-5 py-xl-0">
+            <div class="row align-items-center g-0 p-0">
+                <div class="col-12 d-flex flex-column flex-md-row mb-5 mt-2 mt-md-0 p-0">
+                    <div class="row w-100 mx-0">
+                        <form class="col-12 p-0"[formGroup]="aLaVezForm" (ngSubmit)="updateCitasALavez()">
+                            <div class="row pt-5 p-0 p-sm-2 p-md-3 pt-xl-0 mx-0">
+                              <div class="col-0 col-xs-2 col-sm-6 col-xl-0"></div>
+                              <div class="f-rojo col-9 col-xs-7 col-sm-4 col-xl-8 aparece-grande">Donantes a la vez</div>
+
+                              <input type="text"
+                                  class="inpt campo col-3 col-sm-2 col-xl-4"
+                                  formControlName="nALaVez"
+                                  [placeholder]="this.numCitasALaVez"
+                              />
+                              <div class="col-12 mensajito">
+                                <div class="row">
+                                  <div class="col-6 col-xl-0"></div>
+                                  <span *ngIf="aLaVezForm.get('nALaVez')?.errors?.['pattern']"
+                                      class="mensaje-error col-6 col-xl-12">Introduce un número.
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="d-flex justify-content-end w-100">
+                                <button type="submit" class="btn-primario">
+                                    Guardar
+                                </button>
+                              </div>
+                            </div>
+
+                        </form>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+

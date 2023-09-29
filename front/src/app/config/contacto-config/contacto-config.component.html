@@ -1,0 +1,112 @@
+<form [formGroup]="contactoForm" (ngSubmit)="guardar()"  #cForm="ngForm">
+  <div class="botones mensajes d-flex justify-content-between">
+    <div [ngClass]="actualizado ? 'mensaje-ok' : 'mensaje-error'" class="d-flex align-items-center">
+
+      <i [ngClass]="actualizado ? 'fa-circle-check' : 'fa-triangle-exclamation'" class="fa-solid icono-peq me-2"
+        *ngIf="mensaje">
+      </i>
+
+      <div>{{ mensaje }}</div>
+    </div>
+
+    <button class="btn-primario" type="submit">Guardar</button>
+  </div>
+
+  <div class="direcciones">
+    <h3 class="titulo mb-4">Dirección</h3>
+
+    <ng-container formArrayName="direcciones">
+      <ng-container *ngFor="let dirForm of direcciones.controls; let i = index">
+        <div class="direccion" [formGroupName]="i">
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">Lugar</div>
+
+              <input type="text"
+                formControlName="lugar"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('lugar')?.invalid"
+              class="mensaje-error">Lugar no válido
+            </span>
+          </div>
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">Calle</div>
+
+              <input type="text"
+                formControlName="calle"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('calle')?.invalid"
+              class="mensaje-error">Calle no válida
+            </span>
+          </div>
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">Número</div>
+
+              <input type="text"
+                formControlName="numero"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('numero')?.invalid"
+              class="mensaje-error">Número no válido
+            </span>
+          </div>
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">Ciudad</div>
+
+              <input type="text"
+                formControlName="ciudad"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('ciudad')?.invalid"
+              class="mensaje-error">Ciudad no válida
+            </span>
+          </div>
+
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">Provincia</div>
+
+              <input type="text"
+                formControlName="provincia"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('provincia')?.invalid"
+              class="mensaje-error">Provincia no válida
+            </span>
+          </div>
+
+          <div>
+            <div class="row gx-0">
+              <div class="nombre col-12 col-xl-4 f-rojo">CP</div>
+
+              <input type="number"
+                formControlName="cp"
+                class="valor align-middle col-12 col-xl-8 inpt"/>
+            </div>
+
+            <span *ngIf="dirForm.get('cp')?.invalid"
+              class="mensaje-error">Código postal no válido
+            </span>
+          </div>
+
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</form>
+

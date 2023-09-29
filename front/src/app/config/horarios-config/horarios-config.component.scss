@@ -1,0 +1,265 @@
+input.ng-invalid.ng-touched, .ng-submitted input.ng-invalid {
+    background-color: rgb(255, 220, 231);
+  }
+  
+  .botones {
+    margin-bottom: 1rem;
+  }
+  
+  .horarios,
+  .horas-citas {
+  
+    i {
+      color: var(--color-contraste-oscuro);
+  
+      &:hover {
+        color: var(--color-granate);
+      }
+    }
+  
+    button {
+      margin-top: 2.5rem;
+    }
+  
+    .horario,
+    .telefono {
+      &:not(:first-of-type) {
+        margin-top: 3.5rem;
+      }
+    }
+  
+    select,
+    .telefono input {
+      width: 100%;
+    }
+  }
+  
+  .telefonos,
+  .direcciones {
+    margin-top: 4rem;
+  }
+  
+  .horarios {
+    .horario {
+      position: relative;
+      border-bottom: 2px solid var(--color-primario);
+  
+      .dia:not(:last-of-type) label {
+        margin-right: 1.5rem;
+      }
+  
+      /* .select,
+      select {
+        transition: none;
+  
+        &:hover {
+          background-color: var(--color-contraste);
+        }
+      }
+  
+      .select {
+        padding: .5rem;
+  
+        &::before {
+          font-family: "Font Awesome 5 Free";
+          content: "\f0d7";
+          font-weight: 900;
+          margin-right: .5rem;
+        }
+      }
+  
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-color: unset;
+        border: none;
+        outline: none;
+      } */
+    }
+  }
+  
+  .telefonos .telefono {
+    border-bottom: 2px solid var(--color-primario);
+  
+    input {
+      font-size: unset;
+    }
+  }
+  
+  .direcciones .direccion {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3.5rem;
+  
+    &>div {
+      margin-bottom: 3.5rem;
+  
+      .valor {
+        border: none;
+        outline: none;
+        border-bottom: 2px solid var(--color-primario);
+      }
+    }
+  }
+  
+  
+  @media (max-width: 576px) {
+    .horarios .horario .dia:not(:last-of-type) label {
+      margin-right: 1rem;
+    }
+  }
+  
+  
+  @media (max-width: 768px) {
+    .direcciones .direccion {
+      grid-template-columns: 1fr;
+    }
+  
+    .telefonos .telefono {
+      position: relative;
+  
+      div,
+      .inpt {
+        text-align: center;
+      }
+  
+      div {
+        width: 100%;
+      }
+  
+      i {
+        color: var(--bs-white);
+        position: absolute;
+        right: .5rem;
+        top: .7rem;
+  
+        &:hover {
+          color: var(--color-granate);
+        }
+      }
+    }
+  }
+  
+  
+  @media (max-width: 1200px) {
+  
+    .horarios .horario {
+  
+      .horas,
+      .horas>div,
+      .dias {
+        width: 100%;
+      }
+  
+      .horas,
+      .dias,
+      .inpt {
+        text-align: center;
+      }
+  
+      i {
+        color: var(--bs-white);
+        position: absolute;
+        right: .5rem;
+        top: .7rem;
+  
+        &:hover {
+          color: var(--color-granate);
+        }
+      }
+    }
+  }
+
+  .sombra {
+
+    box-shadow: 0 2px 9px rgba(0, 0, 0, 0.2);
+
+    .btnes-dias {
+    
+        border-radius: 2px 0px 0px 2px;
+    
+        .btn-dia {
+            cursor: pointer;
+            background-color: var(--color-contraste);
+    
+            &.selected {
+                background-color: var(--bs-white);
+            }
+
+            input {
+        
+                visibility: hidden;
+            }
+        }
+    }
+    
+    .horas {
+        height: 15rem;
+        overflow: scroll;
+    
+    
+        border-radius: 0px 2px 2px 2px;
+    
+        .hora {
+            display: flex;
+            // justify-content: center;
+            align-items: center;
+            height: 2rem;
+    
+            padding-top: 1.3rem;
+            padding-bottom: 1.3rem;
+
+
+            &.hora-horario {
+                font-weight: bold;
+            }
+    
+            .quitar {
+                background-color: var(--bs-white);
+                border: 0px;
+                outline: 0px;
+
+                i {
+                    color: var(--color-contraste-oscuro);
+        
+                    &:hover {
+                      color: var(--color-granate);
+                    }
+                }
+            }
+        }
+    }
+}
+
+input.ng-invalid.ng-touched, .ng-submitted input.ng-invalid {
+    background-color: rgb(255, 220, 231);
+}
+
+.campo {
+    &:not(:first-of-type) {
+      margin-top: 3.5rem;
+    }
+  }
+
+  .aparece-grande {
+      display: inline;
+  }
+
+  .aparece-pequeno {
+      display: none;
+  }
+
+  .mensajito {
+      height: 1rem;
+      color: var(--color-primario);
+  }
+
+  .campos .campo {
+    border-bottom: 2px solid var(--color-primario);
+  
+    input {
+      font-size: unset;
+    }
+}
+  
